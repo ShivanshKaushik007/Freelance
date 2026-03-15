@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 
 type Doctor = {
@@ -109,8 +110,15 @@ export default function BookingPage() {
           amount: payableAmount,
           patientName: form.name,
           patientPhone: form.phone,
+          patientEmail: form.email,
+          concern: form.concern,
           doctorId: selectedDoctor.id,
+          doctorName: selectedDoctor.name,
+          doctorSpecialty: selectedDoctor.specialty,
+          fee: selectedDoctor.fee,
+          serviceFee: 99,
           slotId: selectedSlot.id,
+          slotLabel: selectedSlot.label,
           dateLabel: selectedDate,
         }),
       });
@@ -125,7 +133,7 @@ export default function BookingPage() {
         key: data.keyId,
         amount: data.amount,
         currency: data.currency,
-        name: "आरोग्यदीप अस्पताल",
+        name: "Ayushman Well Baby Hospital",
         description: "अपॉइंटमेंट शुल्क",
         order_id: data.orderId,
         prefill: {
@@ -138,8 +146,35 @@ export default function BookingPage() {
           slot: selectedSlot.label,
           date: selectedDate,
         },
-        handler: () => {
-          window.location.href = "/booking/success";
+        handler: async (response: {
+          razorpay_order_id: string;
+          razorpay_payment_id: string;
+          razorpay_signature: string;
+        }) => {
+          setLoading(true);
+          try {
+            const verifyResponse = await fetch("/api/razorpay/verify", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                orderId: response.razorpay_order_id,
+                paymentId: response.razorpay_payment_id,
+                signature: response.razorpay_signature,
+              }),
+            });
+
+            if (!verifyResponse.ok) {
+              throw new Error("भुगतान सत्यापन विफल रहा।");
+            }
+
+            window.location.href = "/booking/success";
+          } catch (err) {
+            const message =
+              err instanceof Error ? err.message : "सत्यापन में समस्या";
+            setError(message);
+          } finally {
+            setLoading(false);
+          }
         },
         theme: {
           color: "#0e7c7b",
@@ -275,6 +310,24 @@ export default function BookingPage() {
         </section>
 
         <aside className="space-y-6">
+          <div className="flex items-center gap-3 rounded-3xl bg-white p-5 shadow">
+            <div className="relative h-12 w-12 overflow-hidden rounded-full bg-white shadow">
+              <Image
+                src="/logo.png"
+                alt="Ayushman Well Baby Hospital"
+                fill
+                className="object-contain"
+              />
+            </div>
+            <div>
+              <p className="text-sm font-semibold text-slate-900">
+                Ayushman Well Baby Hospital
+              </p>
+              <p className="text-[11px] uppercase tracking-[0.2em] text-teal-700">
+                Care That Never Quits
+              </p>
+            </div>
+          </div>
           <div className="rounded-3xl bg-white p-6 shadow">
             <h3 className="text-base font-semibold text-slate-900">
               4. समीक्षा और भुगतान

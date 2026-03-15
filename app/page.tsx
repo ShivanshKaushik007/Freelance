@@ -74,7 +74,7 @@ export default function Home() {
           <div className="flex items-center gap-3">
             <div className="relative h-12 w-12 overflow-hidden rounded-full bg-white shadow">
               <Image
-                src="/logo.jpeg"
+                src="/logo.png"
                 alt="Ayushman Well Baby Hospital"
                 fill
                 className="object-contain"
@@ -401,6 +401,24 @@ export default function Home() {
 
       <footer className="border-t border-black/5 bg-white/70">
         <div className="mx-auto flex flex-wrap items-center justify-between gap-4 px-6 py-6 text-xs text-slate-500">
+          <div className="flex items-center gap-3">
+            <div className="relative h-10 w-10 overflow-hidden rounded-full bg-white shadow">
+              <Image
+                src="/logo.png"
+                alt="Ayushman Well Baby Hospital"
+                fill
+                className="object-contain"
+              />
+            </div>
+            <div>
+              <p className="text-sm font-semibold text-slate-800">
+                Ayushman Well Baby Hospital
+              </p>
+              <p className="text-[11px] uppercase tracking-[0.2em] text-teal-700">
+                Care That Never Quits
+              </p>
+            </div>
+          </div>
           <p>© 2026 Ayushman Well Baby Hospital. सभी अधिकार सुरक्षित।</p>
           <div className="flex gap-4">
             <a href="#" className="hover:text-slate-700">
