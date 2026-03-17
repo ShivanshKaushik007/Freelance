@@ -19,6 +19,11 @@ export const metadata: Metadata = {
   title: "Ayushman Well Baby Hospital | Care That Never Quits",
   description:
     "Ayushman Well Baby Hospital: आधुनिक सुविधाएं, अनुभवी डॉक्टर, आसान अपॉइंटमेंट और सुरक्षित ऑनलाइन भुगतान।",
+  icons: {
+    icon: "/logo.png",
+    apple: "/logo.png",
+    shortcut: "/logo.png",
+  },
 };
 
 export default function RootLayout({
