@@ -47,9 +47,9 @@ export default function Home() {
   return (
     <div className="min-h-screen">
       <header className="sticky top-0 z-40 border-b border-black/5 bg-white/80 backdrop-blur">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
+        <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-3">
           <div className="flex items-center gap-3">
-            <div className="relative h-20 w-20 overflow-hidden rounded-full bg-white shadow">
+            <div className="relative h-14 w-14 overflow-hidden rounded-full bg-white shadow sm:h-20 sm:w-20">
               <Image
                 src="/logo.png"
                 alt="Ayushman Well Baby Hospital"
@@ -59,10 +59,10 @@ export default function Home() {
               />
             </div>
             <div>
-              <p className="text-lg font-semibold text-teal-900">
+              <p className="text-base font-semibold text-teal-900 sm:text-lg">
                 Ayushman Well Baby Hospital
               </p>
-              <p className="text-xs uppercase tracking-[0.24em] text-teal-700">
+              <p className="text-[10px] uppercase tracking-[0.2em] text-teal-700 sm:text-xs sm:tracking-[0.24em]">
                 Care That Never Quits
               </p>
             </div>
@@ -86,7 +86,7 @@ export default function Home() {
           </nav>
           <Link
             href="/booking"
-            className="rounded-full bg-teal-800 px-5 py-2 text-sm font-semibold text-white shadow-lg shadow-teal-900/20 transition hover:bg-teal-900"
+            className="rounded-full bg-teal-800 px-3 py-2 text-center text-xs font-semibold text-white shadow-lg shadow-teal-900/20 transition hover:bg-teal-900 sm:px-5 sm:text-sm"
           >
             बुक अपॉइंटमेंट
           </Link>
@@ -94,7 +94,7 @@ export default function Home() {
       </header>
 
       <main>
-        <section className="section-pad">
+        <section className="section-pad !pt-4 sm:!pt-10">
           <div className="mx-auto grid max-w-6xl items-center gap-10 px-6 lg:grid-cols-[1.1fr_0.9fr]">
             <div>
               <p className="inline-flex items-center gap-2 rounded-full bg-teal-100 px-4 py-1 text-xs font-semibold text-teal-800">
