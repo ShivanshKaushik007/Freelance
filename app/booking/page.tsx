@@ -123,11 +123,22 @@ export default function BookingPage() {
     <div className="min-h-screen bg-slate-50">
       <header className="border-b border-slate-100 bg-white">
         <div className="mx-auto flex max-w-5xl items-center justify-between px-6 py-4">
-          <div>
-            <p className="text-lg font-semibold text-teal-900">
-              Ayushman Well Baby Hospital
-            </p>
-            <p className="text-xs text-slate-500">Care That Never Quits</p>
+          <div className="flex items-center gap-3">
+            <div className="relative h-20 w-20 overflow-hidden rounded-full bg-white shadow">
+              <Image
+                src="/logo.png"
+                alt="Ayushman Well Baby Hospital"
+                fill
+                className="object-contain"
+                priority
+              />
+            </div>
+            <div>
+              <p className="text-lg font-semibold text-teal-900">
+                Ayushman Well Baby Hospital
+              </p>
+              <p className="text-xs text-slate-500">Care That Never Quits</p>
+            </div>
           </div>
           <Link href="/" className="text-sm font-semibold text-teal-800">
             होम पर जाएं
@@ -248,7 +259,7 @@ export default function BookingPage() {
 
         <aside className="space-y-6">
           <div className="flex items-center gap-3 rounded-3xl bg-white p-5 shadow">
-            <div className="relative h-12 w-12 overflow-hidden rounded-full bg-white shadow">
+            <div className="relative h-20 w-20 overflow-hidden rounded-full bg-white shadow">
               <Image
                 src="/logo.png"
                 alt="Ayushman Well Baby Hospital"

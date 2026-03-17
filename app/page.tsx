@@ -49,7 +49,7 @@ export default function Home() {
       <header className="sticky top-0 z-40 border-b border-black/5 bg-white/80 backdrop-blur">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
           <div className="flex items-center gap-3">
-            <div className="relative h-16 w-16 overflow-hidden rounded-full bg-white shadow">
+            <div className="relative h-20 w-20 overflow-hidden rounded-full bg-white shadow">
               <Image
                 src="/logo.png"
                 alt="Ayushman Well Baby Hospital"
@@ -414,7 +414,7 @@ export default function Home() {
       <footer className="border-t border-black/5 bg-white/70">
         <div className="mx-auto flex flex-wrap items-center justify-between gap-4 px-6 py-6 text-xs text-slate-500">
           <div className="flex items-center gap-3">
-            <div className="relative h-10 w-10 overflow-hidden rounded-full bg-white shadow">
+            <div className="relative h-12 w-12 overflow-hidden rounded-full bg-white shadow">
               <Image
                 src="/logo.png"
                 alt="Ayushman Well Baby Hospital"
