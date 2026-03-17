@@ -4,34 +4,42 @@ import { useMemo, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
-type Doctor = {
-  id: string;
-  name: string;
-  specialty: string;
-  fee: number;
-};
-
 type Slot = {
   id: string;
   label: string;
 };
 
-const doctors: Doctor[] = [
-  { id: "doc-1", name: "डॉ. अनन्या वर्मा", specialty: "कार्डियोलॉजी", fee: 1200 },
-  { id: "doc-2", name: "डॉ. राघव सैनी", specialty: "ऑन्कोलॉजी", fee: 1500 },
-  { id: "doc-3", name: "डॉ. सारा क़ुरैशी", specialty: "स्त्री रोग", fee: 900 },
-  { id: "doc-4", name: "डॉ. विवेक देशपांडे", specialty: "न्यूरोलॉजी", fee: 1300 },
-];
+const doctorInfo = {
+  id: "doc-1",
+  name: "डॉ. रवि एस० त्रिपाठी",
+  specialty: "बाल रोग विशेषज्ञ",
+};
 
-const slots: Slot[] = [
-  { id: "slot-1", label: "सुबह 9:00 - 9:30" },
-  { id: "slot-2", label: "सुबह 10:00 - 10:30" },
-  { id: "slot-3", label: "दोपहर 12:00 - 12:30" },
-  { id: "slot-4", label: "शाम 5:00 - 5:30" },
-  { id: "slot-5", label: "शाम 6:00 - 6:30" },
-];
+const opdFee = 200;
+const emergencyFee = 500;
+const serviceFee = 0;
 
-const dates = ["आज", "कल", "आगामी शनिवार", "आगामी सोमवार"];
+type ServiceType = "opd" | "emergency";
+
+const slots: Slot[] = Array.from({ length: 20 }, (_, index) => {
+  const startMinutes = 10 * 60 + index * 30;
+  const endMinutes = startMinutes + 30;
+  const formatTime = (minutes: number) => {
+    const hours = Math.floor(minutes / 60);
+    const mins = minutes % 60;
+    const displayHours = hours.toString().padStart(2, "0");
+    const displayMinutes = mins.toString().padStart(2, "0");
+    return `${displayHours}:${displayMinutes}`;
+  };
+  const startLabel = formatTime(startMinutes);
+  const endLabel = formatTime(endMinutes);
+  return {
+    id: `slot-${index + 1}`,
+    label: `${startLabel} - ${endLabel}`,
+  };
+});
+
+const defaultDate = new Date().toISOString().split("T")[0];
 
 type PatientForm = {
   name: string;
@@ -47,39 +55,22 @@ const initialForm: PatientForm = {
   concern: "",
 };
 
-function loadRazorpay(): Promise<boolean> {
-  return new Promise((resolve) => {
-    if (document.getElementById("razorpay-script")) {
-      resolve(true);
-      return;
-    }
-
-    const script = document.createElement("script");
-    script.id = "razorpay-script";
-    script.src = "https://checkout.razorpay.com/v1/checkout.js";
-    script.onload = () => resolve(true);
-    script.onerror = () => resolve(false);
-    document.body.appendChild(script);
-  });
-}
-
 export default function BookingPage() {
-  const [selectedDate, setSelectedDate] = useState(dates[0]);
+  const [selectedDate, setSelectedDate] = useState(defaultDate);
   const [selectedSlot, setSelectedSlot] = useState<Slot | null>(null);
-  const [selectedDoctor, setSelectedDoctor] = useState<Doctor | null>(null);
+  const [serviceType, setServiceType] = useState<ServiceType>("opd");
   const [form, setForm] = useState(initialForm);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const payableAmount = useMemo(() => {
-    const base = selectedDoctor?.fee ?? 0;
-    return base > 0 ? base + 99 : 0;
-  }, [selectedDoctor]);
+    const base = serviceType === "emergency" ? emergencyFee : opdFee;
+    return base + serviceFee;
+  }, [serviceType]);
 
   const canProceed =
     Boolean(selectedDate) &&
     Boolean(selectedSlot) &&
-    Boolean(selectedDoctor) &&
     form.name.trim() &&
     form.phone.trim();
 
@@ -87,23 +78,16 @@ export default function BookingPage() {
     setForm((prev) => ({ ...prev, [field]: value }));
   };
 
-  const startPayment = async () => {
+  const submitBooking = async () => {
     setError(null);
-    if (!canProceed || !selectedDoctor || !selectedSlot) {
+    if (!canProceed || !selectedSlot) {
       setError("कृपया सभी आवश्यक जानकारी भरें।");
       return;
     }
 
-    setLoading(true);
-    const scriptReady = await loadRazorpay();
-    if (!scriptReady) {
-      setError("भुगतान स्क्रिप्ट लोड नहीं हुई। कृपया फिर प्रयास करें।");
-      setLoading(false);
-      return;
-    }
-
     try {
-      const response = await fetch("/api/razorpay/order", {
+      setLoading(true);
+      const response = await fetch("/api/booking", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -112,11 +96,11 @@ export default function BookingPage() {
           patientPhone: form.phone,
           patientEmail: form.email,
           concern: form.concern,
-          doctorId: selectedDoctor.id,
-          doctorName: selectedDoctor.name,
-          doctorSpecialty: selectedDoctor.specialty,
-          fee: selectedDoctor.fee,
-          serviceFee: 99,
+          doctorId: doctorInfo.id,
+          doctorName: doctorInfo.name,
+          doctorSpecialty: doctorInfo.specialty,
+          fee: serviceType === "emergency" ? emergencyFee : opdFee,
+          serviceFee,
           slotId: selectedSlot.id,
           slotLabel: selectedSlot.label,
           dateLabel: selectedDate,
@@ -124,67 +108,9 @@ export default function BookingPage() {
       });
 
       if (!response.ok) {
-        throw new Error("ऑर्डर बनाने में समस्या हुई।");
+        throw new Error("अपॉइंटमेंट सेव नहीं हुआ।");
       }
-
-      const data = await response.json();
-
-      const options = {
-        key: data.keyId,
-        amount: data.amount,
-        currency: data.currency,
-        name: "Ayushman Well Baby Hospital",
-        description: "अपॉइंटमेंट शुल्क",
-        order_id: data.orderId,
-        prefill: {
-          name: form.name,
-          email: form.email,
-          contact: form.phone,
-        },
-        notes: {
-          doctor: selectedDoctor.name,
-          slot: selectedSlot.label,
-          date: selectedDate,
-        },
-        handler: async (response: {
-          razorpay_order_id: string;
-          razorpay_payment_id: string;
-          razorpay_signature: string;
-        }) => {
-          setLoading(true);
-          try {
-            const verifyResponse = await fetch("/api/razorpay/verify", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({
-                orderId: response.razorpay_order_id,
-                paymentId: response.razorpay_payment_id,
-                signature: response.razorpay_signature,
-              }),
-            });
-
-            if (!verifyResponse.ok) {
-              throw new Error("भुगतान सत्यापन विफल रहा।");
-            }
-
-            window.location.href = "/booking/success";
-          } catch (err) {
-            const message =
-              err instanceof Error ? err.message : "सत्यापन में समस्या";
-            setError(message);
-          } finally {
-            setLoading(false);
-          }
-        },
-        theme: {
-          color: "#0e7c7b",
-        },
-      };
-
-      const razorpay = new (window as unknown as { Razorpay: any }).Razorpay(
-        options
-      );
-      razorpay.open();
+      window.location.href = "/booking/success";
     } catch (err) {
       const message = err instanceof Error ? err.message : "अज्ञात त्रुटि";
       setError(message);
@@ -215,62 +141,73 @@ export default function BookingPage() {
             <h2 className="text-lg font-semibold text-slate-900">
               1. दिन और स्लॉट चुनें
             </h2>
-            <div className="mt-4 flex flex-wrap gap-3">
-              {dates.map((date) => (
-                <button
-                  key={date}
-                  onClick={() => setSelectedDate(date)}
-                  className={`rounded-full px-4 py-2 text-sm font-medium transition ${
-                    selectedDate === date
-                      ? "bg-teal-800 text-white"
-                      : "bg-slate-100 text-slate-700"
-                  }`}
+            <div className="mt-4 grid gap-4 sm:grid-cols-2">
+              <label className="text-sm text-slate-600">
+                तारीख
+                <input
+                  type="date"
+                  value={selectedDate}
+                  min={defaultDate}
+                  onChange={(event) => setSelectedDate(event.target.value)}
+                  className="mt-2 w-full rounded-2xl border border-slate-200 px-4 py-3 text-sm"
+                />
+              </label>
+              <label className="text-sm text-slate-600">
+                समय स्लॉट
+                <select
+                  value={selectedSlot?.id ?? ""}
+                  onChange={(event) => {
+                    const slot = slots.find((item) => item.id === event.target.value);
+                    setSelectedSlot(slot ?? null);
+                  }}
+                  className="mt-2 w-full rounded-2xl border border-slate-200 px-4 py-3 text-sm"
                 >
-                  {date}
-                </button>
-              ))}
-            </div>
-            <div className="mt-4 grid gap-3 sm:grid-cols-2">
-              {slots.map((slot) => (
-                <button
-                  key={slot.id}
-                  onClick={() => setSelectedSlot(slot)}
-                  className={`rounded-2xl border px-4 py-3 text-left text-sm font-medium transition ${
-                    selectedSlot?.id === slot.id
-                      ? "border-teal-700 bg-teal-50"
-                      : "border-slate-200"
-                  }`}
-                >
-                  {slot.label}
-                </button>
-              ))}
+                  <option value="" disabled>
+                    स्लॉट चुनें
+                  </option>
+                  {slots.map((slot) => (
+                    <option key={slot.id} value={slot.id}>
+                      {slot.label}
+                    </option>
+                  ))}
+                </select>
+              </label>
             </div>
           </div>
 
           <div className="rounded-3xl bg-white p-6 shadow">
             <h2 className="text-lg font-semibold text-slate-900">
-              2. डॉक्टर चुनें
+              2. सेवा चुनें
             </h2>
-            <div className="mt-4 grid gap-3">
-              {doctors.map((doctor) => (
-                <button
-                  key={doctor.id}
-                  onClick={() => setSelectedDoctor(doctor)}
-                  className={`flex items-center justify-between rounded-2xl border px-4 py-3 text-left text-sm transition ${
-                    selectedDoctor?.id === doctor.id
-                      ? "border-teal-700 bg-teal-50"
-                      : "border-slate-200"
-                  }`}
-                >
-                  <div>
-                    <p className="font-semibold text-slate-900">{doctor.name}</p>
-                    <p className="text-xs text-slate-500">{doctor.specialty}</p>
-                  </div>
-                  <p className="text-sm font-semibold text-slate-700">
-                    ₹{doctor.fee}
-                  </p>
-                </button>
-              ))}
+            <div className="mt-4 grid gap-3 text-sm text-slate-700">
+              <button
+                type="button"
+                onClick={() => setServiceType("opd")}
+                className={`flex items-center justify-between rounded-2xl border px-4 py-3 text-left transition ${
+                  serviceType === "opd"
+                    ? "border-teal-700 bg-teal-50"
+                    : "border-slate-200"
+                }`}
+              >
+                <span className="font-semibold text-slate-900">OPD शुल्क</span>
+                <span className="font-semibold text-slate-900">₹{opdFee}</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setServiceType("emergency")}
+                className={`flex items-center justify-between rounded-2xl border px-4 py-3 text-left transition ${
+                  serviceType === "emergency"
+                    ? "border-teal-700 bg-teal-50"
+                    : "border-slate-200"
+                }`}
+              >
+                <span className="font-semibold text-slate-900">
+                  इमरजेंसी शुल्क
+                </span>
+                <span className="font-semibold text-slate-900">
+                  ₹{emergencyFee}
+                </span>
+              </button>
             </div>
           </div>
 
@@ -330,7 +267,7 @@ export default function BookingPage() {
           </div>
           <div className="rounded-3xl bg-white p-6 shadow">
             <h3 className="text-base font-semibold text-slate-900">
-              4. समीक्षा और भुगतान
+              4. समीक्षा और पुष्टि
             </h3>
             <div className="mt-4 space-y-3 text-sm text-slate-600">
               <div className="flex items-center justify-between">
@@ -346,18 +283,20 @@ export default function BookingPage() {
               <div className="flex items-center justify-between">
                 <span>डॉक्टर</span>
                 <span className="font-semibold text-slate-900">
-                  {selectedDoctor?.name ?? "चयनित नहीं"}
+                  {doctorInfo.name}
                 </span>
               </div>
               <div className="flex items-center justify-between">
-                <span>कंसल्टेशन शुल्क</span>
+                <span>चयनित सेवा</span>
                 <span className="font-semibold text-slate-900">
-                  ₹{selectedDoctor?.fee ?? 0}
+                  {serviceType === "emergency" ? "इमरजेंसी" : "OPD"}
                 </span>
               </div>
               <div className="flex items-center justify-between">
                 <span>सेवा शुल्क</span>
-                <span className="font-semibold text-slate-900">₹99</span>
+                <span className="font-semibold text-slate-900">
+                  ₹{serviceType === "emergency" ? emergencyFee : opdFee}
+                </span>
               </div>
               <div className="flex items-center justify-between border-t border-dashed pt-3">
                 <span className="font-semibold text-slate-900">कुल राशि</span>
@@ -372,14 +311,14 @@ export default function BookingPage() {
               </p>
             )}
             <button
-              onClick={startPayment}
+              onClick={submitBooking}
               disabled={!canProceed || loading}
               className="mt-5 w-full rounded-2xl bg-teal-800 px-4 py-3 text-sm font-semibold text-white disabled:cursor-not-allowed disabled:bg-slate-300"
             >
-              {loading ? "भुगतान जारी है..." : "Razorpay से भुगतान करें"}
+              {loading ? "बुकिंग सेव हो रही है..." : "बुकिंग कन्फर्म करें"}
             </button>
             <p className="mt-3 text-xs text-slate-500">
-              भुगतान सुरक्षित है और आपकी जानकारी एन्क्रिप्टेड रहती है।
+              आपकी जानकारी सुरक्षित रहती है और टीम जल्द पुष्टि भेजेगी।
             </p>
           </div>
 

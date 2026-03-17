@@ -16,7 +16,7 @@ export default function BookingSuccessPage() {
     <div className="flex min-h-screen items-center justify-center bg-slate-50 px-6">
       <div className="max-w-lg rounded-3xl bg-white p-8 text-center shadow">
         <p className="text-xs font-semibold uppercase tracking-[0.3em] text-teal-700">
-          भुगतान सफल
+          बुकिंग सफल
         </p>
         <h1 className="mt-4 text-3xl font-semibold text-slate-900">
           आपका अपॉइंटमेंट कन्फर्म हो गया है
