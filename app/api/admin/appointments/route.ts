@@ -11,10 +11,31 @@ function getBearerToken(request: Request) {
   return token;
 }
 
-function isAdminUser(user: { app_metadata?: Record<string, unknown>; user_metadata?: Record<string, unknown> }) {
+function getAdminEmails() {
+  const raw = process.env.ADMIN_EMAILS ?? "";
+  return raw
+    .split(",")
+    .map((value) => value.trim().toLowerCase())
+    .filter((value) => value.length > 0);
+}
+
+function isAdminUser(user: {
+  email?: string | null;
+  app_metadata?: Record<string, unknown>;
+  user_metadata?: Record<string, unknown>;
+}) {
   const appRole = user.app_metadata?.role;
   const userRole = user.user_metadata?.role;
-  return appRole === "admin" || userRole === "admin";
+  if (appRole === "admin" || userRole === "admin") {
+    return true;
+  }
+
+  const adminEmails = getAdminEmails();
+  if (!adminEmails.length || !user.email) {
+    return false;
+  }
+
+  return adminEmails.includes(user.email.toLowerCase());
 }
 
 export async function GET(request: Request) {

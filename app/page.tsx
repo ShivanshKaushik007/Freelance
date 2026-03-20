@@ -46,10 +46,10 @@ const faqs = [
 export default function Home() {
   return (
     <div className="min-h-screen">
-      <header className="sticky top-0 z-40 border-b border-black/5 bg-white/80 backdrop-blur">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-3">
-          <div className="flex items-center gap-3">
-            <div className="relative h-14 w-14 overflow-hidden rounded-full bg-white shadow sm:h-20 sm:w-20">
+      <header className="sticky top-0 z-40 border-b border-black/5 bg-white ">
+        <div className="mx-auto flex max-w-6xl flex-nowrap items-center justify-between gap-2 px-4 py-3 sm:gap-4 sm:px-6">
+          <div className="flex min-w-0 max-w-[70%] items-center gap-3 sm:max-w-none">
+            <div className="relative h-12 w-12 shrink-0 overflow-hidden bg-white/80 sm:h-20 sm:w-20">
               <Image
                 src="/logo.png"
                 alt="Ayushman Well Baby Hospital"
@@ -59,10 +59,10 @@ export default function Home() {
               />
             </div>
             <div>
-              <p className="text-base font-semibold text-teal-900 sm:text-lg">
+              <p className="text-sm font-semibold leading-tight text-teal-900 sm:text-lg">
                 Ayushman Well Baby Hospital
               </p>
-              <p className="text-[10px] uppercase tracking-[0.2em] text-teal-700 sm:text-xs sm:tracking-[0.24em]">
+              <p className="text-[9px] uppercase tracking-[0.2em] text-teal-700 sm:text-xs sm:tracking-[0.24em]">
                 Care That Never Quits
               </p>
             </div>
@@ -86,7 +86,7 @@ export default function Home() {
           </nav>
           <Link
             href="/booking"
-            className="rounded-full bg-teal-800 px-3 py-2 text-center text-xs font-semibold text-white shadow-lg shadow-teal-900/20 transition hover:bg-teal-900 sm:px-5 sm:text-sm"
+            className="whitespace-nowrap rounded-full bg-teal-800 px-3 py-2 text-center text-xs font-semibold text-white shadow-lg shadow-teal-900/20 transition hover:bg-teal-900 sm:px-5 sm:text-sm"
           >
             बुक अपॉइंटमेंट
           </Link>
@@ -95,15 +95,15 @@ export default function Home() {
 
       <main>
         <section className="section-pad !pt-4 sm:!pt-10">
-          <div className="mx-auto grid max-w-6xl items-center gap-10 px-6 lg:grid-cols-[1.1fr_0.9fr]">
+          <div className="mx-auto grid max-w-6xl items-center gap-8 px-4 sm:gap-10 sm:px-6 lg:grid-cols-[1.1fr_0.9fr]">
             <div>
               <p className="inline-flex items-center gap-2 rounded-full bg-teal-100 px-4 py-1 text-xs font-semibold text-teal-800">
                 भरोसेमंद देखभाल
               </p>
-              <h1 className="mt-6 text-4xl font-semibold leading-tight text-slate-900 sm:text-5xl">
+              <h1 className="mt-6 text-3xl font-semibold leading-tight text-slate-900 sm:text-5xl">
                 परिवार के लिए सुरक्षित, आधुनिक और मानवीय स्वास्थ्य सेवा
               </h1>
-              <p className="mt-4 max-w-xl text-lg text-slate-700">
+              <p className="mt-4 max-w-xl text-base text-slate-700 sm:text-lg">
                 Ayushman Well Baby Hospital में उन्नत तकनीक, अनुभवी डॉक्टर और दयालु
                 देखभाल का संगम है। अब स्लॉट चुनें, डॉक्टर चुनें और सुरक्षित
                 ऑनलाइन भुगतान के साथ अपॉइंटमेंट पक्का करें।
@@ -111,18 +111,18 @@ export default function Home() {
               <div className="mt-6 flex flex-wrap gap-4">
                 <Link
                   href="/booking"
-                  className="rounded-full bg-teal-800 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-teal-900/20 transition hover:bg-teal-900"
+                  className="w-full rounded-full bg-teal-800 px-6 py-3 text-center text-sm font-semibold text-white shadow-lg shadow-teal-900/20 transition hover:bg-teal-900 sm:w-auto"
                 >
                   अपॉइंटमेंट बुक करें
                 </Link>
                 <a
                   href="#services"
-                  className="rounded-full border border-teal-800/30 px-6 py-3 text-sm font-semibold text-teal-900 transition hover:border-teal-800"
+                  className="w-full rounded-full border border-teal-800/30 px-6 py-3 text-center text-sm font-semibold text-teal-900 transition hover:border-teal-800 sm:w-auto"
                 >
                   सेवाएं देखें
                 </a>
               </div>
-              <div className="mt-8 grid grid-cols-3 gap-4 text-center text-sm text-slate-700">
+              {/* <div className="mt-8 grid grid-cols-3 gap-4 text-center text-sm text-slate-700">
                 <div className="glass rounded-2xl px-4 py-3">
                   <p className="text-xl font-semibold text-slate-900">40+</p>
                   <p>विशेषज्ञ डॉक्टर</p>
@@ -135,11 +135,11 @@ export default function Home() {
                   <p className="text-xl font-semibold text-slate-900">15k+</p>
                   <p>सफल उपचार</p>
                 </div>
-              </div>
+              </div> */}
             </div>
             <div className="relative">
-              <div className="glass rounded-[32px] p-6">
-                <div className="rounded-3xl bg-gradient-to-br from-teal-100 via-white to-amber-100 ">
+              <div className="glass rounded-[28px] p-4 sm:rounded-[32px] sm:p-6">
+                <div className="rounded-3xl bg-gradient-to-br from-teal-100 via-white to-amber-100">
                   <div className="relative w-full">
                     <Image
                       src="/doctor.jpeg"
@@ -163,13 +163,13 @@ export default function Home() {
         </section>
 
         <section id="services" className="section-pad">
-          <div className="mx-auto max-w-6xl px-6">
+          <div className="mx-auto max-w-6xl px-4 sm:px-6">
             <div className="flex flex-wrap items-end justify-between gap-4">
               <div>
                 <p className="text-xs font-semibold uppercase  text-teal-700">
                   हमारी सेवाएं
                 </p>
-                <h2 className="mt-3 text-3xl font-semibold text-slate-900">
+                <h2 className="mt-3 text-2xl font-semibold text-slate-900 sm:text-3xl">
                   हर चरण में विशेषज्ञ देखभाल
                 </h2>
               </div>
@@ -177,9 +177,9 @@ export default function Home() {
                 मल्टीस्पेशलिटी टीम, आधुनिक इंफ्रास्ट्रक्चर और मरीज-केंद्रित अनुभव।
               </p>
             </div>
-            <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            <div className="mt-8 grid gap-5 sm:mt-10 md:grid-cols-2 lg:grid-cols-3">
               {services.map((service) => (
-                <div key={service.title} className="glass rounded-3xl p-6">
+                <div key={service.title} className="glass rounded-3xl p-5 sm:p-6">
                   <h3 className="text-lg font-semibold text-slate-900">
                     {service.title}
                   </h3>
@@ -191,13 +191,13 @@ export default function Home() {
         </section>
 
         <section id="doctors" className="section-pad">
-          <div className="mx-auto max-w-6xl px-6">
+          <div className="mx-auto max-w-6xl px-4 sm:px-6">
             <div className="flex flex-wrap items-center justify-between gap-4">
               <div>
                 <p className="text-xs font-semibold uppercase  text-teal-700">
                   डॉक्टर परिचय
                 </p>
-                <h2 className="mt-3 text-3xl font-semibold text-slate-900">
+                <h2 className="mt-3 text-2xl font-semibold text-slate-900 sm:text-3xl">
                   डॉ. रवि एस० त्रिपाठी
                 </h2>
               </div>
@@ -208,8 +208,8 @@ export default function Home() {
                 अपॉइंटमेंट लें
               </Link>
             </div>
-            <div className="mt-10 grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
-              <div className="glass rounded-3xl p-6">
+            <div className="mt-8 grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
+              <div className="glass rounded-3xl p-5 sm:p-6">
                 <p className="text-sm font-semibold text-teal-700">
                   योग्यता और अनुभव
                 </p>
@@ -222,9 +222,9 @@ export default function Home() {
                   ))}
                 </ul>
               </div>
-              <div className="glass rounded-3xl p-6">
-                <div className="rounded-2xl bg-gradient-to-br from-teal-100 via-white to-amber-100 p-6">
-                  <p className="text-xs font-semibold uppercase tracking-[0.28em] text-teal-700">
+              <div className="glass rounded-3xl p-5 sm:p-6">
+                <div className="rounded-2xl bg-gradient-to-br from-teal-100 via-white to-amber-100 p-5 sm:p-6">
+                  <p className="text-xs font-semibold uppercase text-teal-700">
                     एकमात्र विशेषज्ञ डॉक्टर
                   </p>
                   <p className="mt-3 text-lg font-semibold text-slate-900">
@@ -246,14 +246,14 @@ export default function Home() {
         </section>
 
         <section id="process" className="section-pad">
-          <div className="mx-auto max-w-6xl px-6">
-            <div className="glass rounded-[32px] p-10">
+          <div className="mx-auto max-w-6xl px-4 sm:px-6">
+            <div className="glass rounded-[32px] p-6 sm:p-10">
               <div className="grid gap-8 lg:grid-cols-[1fr_1.2fr]">
                 <div>
-                  <p className="text-xs font-semibold uppercase tracking-[0.32em] text-teal-700">
+                  <p className="text-xs font-semibold uppercase  text-teal-700">
                     बुकिंग प्रक्रिया
                   </p>
-                  <h2 className="mt-4 text-3xl font-semibold text-slate-900">
+                  <h2 className="mt-4 text-2xl font-semibold text-slate-900 sm:text-3xl">
                     4 आसान कदमों में अपॉइंटमेंट
                   </h2>
                   <p className="mt-3 text-sm text-slate-600">
@@ -269,13 +269,13 @@ export default function Home() {
                 <div className="grid gap-4 sm:grid-cols-2">
                   {[
                     "अपना पसंदीदा दिन और समय चुनें",
-                    "विशेषज्ञ डॉक्टर का चयन करें",
+                    "सुविधा का चयन करें",
                     "मरीज का विवरण भरें",
                     "बुकिंग कन्फर्म करें",
                   ].map((step, index) => (
                     <div
                       key={step}
-                      className="rounded-3xl bg-white/90 p-5 text-sm text-slate-700 shadow"
+                      className="rounded-3xl bg-white/90 p-4 text-sm text-slate-700 shadow sm:p-5"
                     >
                       <p className="text-xs font-semibold text-teal-700">
                         चरण {index + 1}
@@ -289,7 +289,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="section-pad">
+        {/* <section className="section-pad">
           <div className="mx-auto max-w-6xl px-6">
             <div className="grid gap-6 lg:grid-cols-3">
               {[
@@ -321,21 +321,21 @@ export default function Home() {
               ))}
             </div>
           </div>
-        </section>
+        </section> */}
 
         <section id="faq" className="section-pad">
-          <div className="mx-auto max-w-5xl px-6">
+          <div className="mx-auto max-w-5xl px-4 sm:px-6">
             <div className="text-center">
-              <p className="text-xs font-semibold uppercase tracking-[0.32em] text-teal-700">
+              <p className="text-xs font-semibold uppercase  text-teal-700">
                 सामान्य प्रश्न
               </p>
-              <h2 className="mt-3 text-3xl font-semibold text-slate-900">
+              <h2 className="mt-3 text-2xl font-semibold text-slate-900 sm:text-3xl">
                 आपके सवाल, हमारे जवाब
               </h2>
             </div>
-            <div className="mt-10 grid gap-4">
+            <div className="mt-8 grid gap-4 sm:mt-10">
               {faqs.map((faq) => (
-                <div key={faq.q} className="glass rounded-3xl p-6">
+                <div key={faq.q} className="glass rounded-3xl p-5 sm:p-6">
                   <h3 className="text-base font-semibold text-slate-900">
                     {faq.q}
                   </h3>
@@ -347,11 +347,11 @@ export default function Home() {
         </section>
 
         <section id="contact" className="section-pad">
-          <div className="mx-auto max-w-6xl px-6">
+          <div className="mx-auto max-w-6xl px-4 sm:px-6">
             <div className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
-              <div className="glass rounded-[32px] p-8">
-                <h2 className="text-3xl font-semibold text-slate-900">
-                  हमसे जुड़े, हम हमेशा पास हैं
+              <div className="glass rounded-[32px] p-6 sm:p-8">
+                <h2 className="text-2xl font-semibold text-slate-900 sm:text-3xl">
+                  हमसे जुड़े
                 </h2>
                 <p className="mt-3 text-sm text-slate-600">
                   24x7 इमरजेंसी हेल्पलाइन, लाइव चैट और त्वरित सहायता।
@@ -375,11 +375,11 @@ export default function Home() {
                   </div>
                 </div>
               </div>
-              <div className="rounded-[32px] bg-slate-900 p-8 text-white">
+              <div className="rounded-[32px] bg-slate-900 p-6 text-white sm:p-8">
                 <p className="text-xs font-semibold uppercase text-amber-200">
                   आपातकालीन हेल्पलाइन
                 </p>
-                <h3 className="mt-4 text-3xl font-semibold">7607711316</h3>
+                <h3 className="mt-4 text-2xl font-semibold sm:text-3xl">7607711316</h3>
                 <p className="mt-3 text-sm text-slate-200">
                   तुरंत सहायता के लिए कॉल करें। हमारी टीम हर समय तैयार है।
                 </p>
@@ -394,7 +394,7 @@ export default function Home() {
                     <iframe
                       title="Hospital location"
                       src="https://www.google.com/maps?q=27.138079,81.971970&output=embed"
-                      className="h-44 w-full border-0"
+                      className="h-40 w-full border-0 sm:h-44"
                       loading="lazy"
                     />
                   </a>
@@ -411,10 +411,10 @@ export default function Home() {
         </section>
       </main>
 
-      <footer className="border-t border-black/5 bg-white/70">
-        <div className="mx-auto flex flex-wrap items-center justify-between gap-4 px-6 py-6 text-xs text-slate-500">
+      <footer className="border-t border-black/5 bg-white">
+        <div className="mx-auto flex flex-wrap items-center justify-between gap-4 px-4 py-6 text-xs text-slate-500 sm:px-6">
           <div className="flex items-center gap-3">
-            <div className="relative h-12 w-12 overflow-hidden rounded-full bg-white shadow">
+            <div className="relative h-12 w-12 overflow-hidden rounded-full ">
               <Image
                 src="/logo.png"
                 alt="Ayushman Well Baby Hospital"

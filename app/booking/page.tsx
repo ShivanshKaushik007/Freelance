@@ -122,33 +122,38 @@ export default function BookingPage() {
   return (
     <div className="min-h-screen bg-slate-50">
       <header className="border-b border-slate-100 bg-white">
-        <div className="mx-auto flex max-w-5xl items-center justify-between px-6 py-4">
-          <div className="flex items-center gap-3">
-            <div className="relative h-20 w-20 overflow-hidden rounded-full bg-white shadow">
+        <div className="mx-auto flex max-w-5xl flex-nowrap items-center justify-between gap-2 px-4 py-4 sm:gap-4 sm:px-6">
+          <div className="flex min-w-0 max-w-[70%] items-center gap-3 sm:max-w-none">
+            <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-full bg-white  sm:h-20 sm:w-20">
               <Image
                 src="/logo.png"
                 alt="Ayushman Well Baby Hospital"
                 fill
-                className="object-contain"
+                className="object-contain p-1"
                 priority
               />
             </div>
             <div>
-              <p className="text-lg font-semibold text-teal-900">
+              <p className="text-base font-semibold leading-tight text-teal-900 sm:text-lg">
                 Ayushman Well Baby Hospital
               </p>
-              <p className="text-xs text-slate-500">Care That Never Quits</p>
+              <p className="text-[11px] text-slate-500 sm:text-xs">
+                Care That Never Quits
+              </p>
             </div>
           </div>
-          <Link href="/" className="text-sm font-semibold text-teal-800">
+          <Link
+            href="/"
+            className="whitespace-nowrap text-xs font-semibold text-teal-800 sm:text-sm"
+          >
             होम पर जाएं
           </Link>
         </div>
       </header>
 
-      <main className="mx-auto grid max-w-5xl gap-6 px-6 py-10 lg:grid-cols-[1.1fr_0.9fr]">
+      <main className="mx-auto grid max-w-5xl gap-5 px-4 py-8 sm:gap-6 sm:px-6 sm:py-10 lg:grid-cols-[1.1fr_0.9fr]">
         <section className="space-y-6">
-          <div className="rounded-3xl bg-white p-6 shadow">
+          <div className="rounded-3xl bg-white p-4 shadow sm:p-6">
             <h2 className="text-lg font-semibold text-slate-900">
               1. दिन और स्लॉट चुनें
             </h2>
@@ -186,7 +191,7 @@ export default function BookingPage() {
             </div>
           </div>
 
-          <div className="rounded-3xl bg-white p-6 shadow">
+          <div className="rounded-3xl bg-white p-4 shadow sm:p-6">
             <h2 className="text-lg font-semibold text-slate-900">
               2. सेवा चुनें
             </h2>
@@ -222,7 +227,7 @@ export default function BookingPage() {
             </div>
           </div>
 
-          <div className="rounded-3xl bg-white p-6 shadow">
+          <div className="rounded-3xl bg-white p-4 shadow sm:p-6">
             <h2 className="text-lg font-semibold text-slate-900">
               3. मरीज विवरण
             </h2>
@@ -258,25 +263,8 @@ export default function BookingPage() {
         </section>
 
         <aside className="space-y-6">
-          <div className="flex items-center gap-3 rounded-3xl bg-white p-5 shadow">
-            <div className="relative h-20 w-20 overflow-hidden rounded-full bg-white shadow">
-              <Image
-                src="/logo.png"
-                alt="Ayushman Well Baby Hospital"
-                fill
-                className="object-contain"
-              />
-            </div>
-            <div>
-              <p className="text-sm font-semibold text-slate-900">
-                Ayushman Well Baby Hospital
-              </p>
-              <p className="text-[11px] uppercase tracking-[0.2em] text-teal-700">
-                Care That Never Quits
-              </p>
-            </div>
-          </div>
-          <div className="rounded-3xl bg-white p-6 shadow">
+          
+          <div className="rounded-3xl bg-white p-4 shadow sm:p-6">
             <h3 className="text-base font-semibold text-slate-900">
               4. समीक्षा और पुष्टि
             </h3>
@@ -311,7 +299,7 @@ export default function BookingPage() {
               </div>
               <div className="flex items-center justify-between border-t border-dashed pt-3">
                 <span className="font-semibold text-slate-900">कुल राशि</span>
-                <span className="text-lg font-semibold text-teal-800">
+                <span className="text-base font-semibold text-teal-800 sm:text-lg">
                   ₹{payableAmount}
                 </span>
               </div>
@@ -331,15 +319,6 @@ export default function BookingPage() {
             <p className="mt-3 text-xs text-slate-500">
               आपकी जानकारी सुरक्षित रहती है और टीम जल्द पुष्टि भेजेगी।
             </p>
-          </div>
-
-          <div className="rounded-3xl bg-white p-6 text-sm text-slate-600 shadow">
-            <p className="font-semibold text-slate-900">क्या चाहिए?</p>
-            <ul className="mt-3 space-y-2">
-              <li>सरकारी पहचान पत्र</li>
-              <li>पूर्व रिपोर्ट या प्रिस्क्रिप्शन</li>
-              <li>परिवारिक मेडिकल इतिहास</li>
-            </ul>
           </div>
         </aside>
       </main>
